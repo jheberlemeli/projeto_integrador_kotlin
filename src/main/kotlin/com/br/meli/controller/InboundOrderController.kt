@@ -10,8 +10,8 @@ class InboundOrderController(
 ) {
 
     @Post
-    fun create(@Body inboundOrder: InboundOrder){
-        inboundOrderService.create(inboundOrder)
+    fun create(@Body inboundOrder: InboundOrder): InboundOrder{
+        return inboundOrderService.create(inboundOrder)
     }
 
     @Get("{id}")

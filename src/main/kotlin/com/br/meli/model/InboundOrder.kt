@@ -11,6 +11,7 @@ data class InboundOrder constructor(
 
     @ManyToOne
     @JoinColumn(name = "sectionId")
+    @JsonIgnoreProperties("inboundOrder")
     var section: Section?,
 
     @OneToMany(mappedBy = "inboundOrder", cascade = [CascadeType.PERSIST], fetch = FetchType.EAGER)

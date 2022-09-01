@@ -1,15 +1,32 @@
 package com.br.meli.service
 
+import com.br.meli.model.BatchStock
 import com.br.meli.model.InboundOrder
+import com.br.meli.model.Section
 import com.br.meli.repository.InboundOrderRepo
+import com.br.meli.repository.SellerAdRepo
 import jakarta.inject.Singleton
 
 @Singleton
 class InboundOrderService(
-    private var inboundOrderRepo: InboundOrderRepo
+    private var inboundOrderRepo: InboundOrderRepo,
+    private var sellerAdRepo: SellerAdRepo
 ) {
-    fun create(inboundOrder: InboundOrder) {
-        inboundOrderRepo.save(inboundOrder)
+
+    fun isAllTypeProductsValid(batckStock: List<BatchStock>?, sectionCategory: Section?){
+        batckStock!!.forEach { it ->
+            val sellerAd =
+                sellerAdRepo.findById(it.sellerAd.id).orElseThrow { IllegalArgumentException("SellerAd invalido") }
+            if (!sellerAd.product!!.category.equals(sectionCategory)) {
+                throw IllegalArgumentException("Produto nao existe")
+            }
+        }
+
+    }
+
+    fun create(inboundOrder: InboundOrder): InboundOrder {
+        isAllTypeProductsValid(inboundOrder.batchStockList, inboundOrder.section)
+        return inboundOrderRepo.save(inboundOrder)
     }
 
     fun finById(id: Int): InboundOrder {

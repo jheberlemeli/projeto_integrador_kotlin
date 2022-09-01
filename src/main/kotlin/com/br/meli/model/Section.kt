@@ -13,7 +13,6 @@ data class Section(
     var category: Category?,
 
     @OneToMany(mappedBy = "section", fetch=FetchType.EAGER)
-    @JsonIgnoreProperties("section")
     var inboundOrder: List<InboundOrder>?,
 ) {
 
