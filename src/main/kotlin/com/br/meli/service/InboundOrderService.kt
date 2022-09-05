@@ -17,7 +17,7 @@ class InboundOrderService(
         batckStock!!.forEach { it ->
             val sellerAd =
                 sellerAdRepo.findById(it.sellerAd.id).orElseThrow { IllegalArgumentException("SellerAd invalido") }
-            if (!sellerAd.product!!.category.equals(sectionCategory)) {
+            if (!sellerAd.product!!.category.equals(sectionCategory!!.category)) {
                 throw IllegalArgumentException("Produto nao existe")
             }
         }

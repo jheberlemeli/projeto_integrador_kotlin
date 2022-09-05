@@ -18,8 +18,13 @@ open class ShopOrderController(
     }
 
     @Post
-    open fun create(@Body shopOrder: ShopOrder){
-        shopOrderService.create(shopOrder)
+    open fun create(@Body shopOrder: ShopOrder): ShopOrder{
+        return shopOrderService.create(shopOrder)
+    }
+
+    @Put("/{id}")
+    open fun update(@PathVariable id: Int): ShopOrder{
+        return shopOrderService.closedShopOrder(id)
     }
 
 

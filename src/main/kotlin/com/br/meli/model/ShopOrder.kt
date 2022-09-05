@@ -19,4 +19,6 @@ data class ShopOrder(
     @JoinColumn(name="buyer_id")
     var buyer: Buyer?,
 
+    var totalPrice: Double?
+
     )

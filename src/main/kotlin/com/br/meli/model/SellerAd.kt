@@ -10,7 +10,7 @@ data class SellerAd(
     var id: Int?,
     var price: Double?,
 
-    @OneToMany(mappedBy = "sellerAd")
+    @OneToMany(mappedBy = "sellerAd", fetch = FetchType.EAGER)
     var batchStockId: List<BatchStock>?,
 
     @ManyToOne
