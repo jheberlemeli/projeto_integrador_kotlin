@@ -32,8 +32,8 @@ class BatchStockController(
     }
 
     @Get("/due-date")
-    fun getBatchStocksByDueDate(@QueryValue number_days: Int, @QueryValue section: Long): List<BatchStock> {
-        return batchStockService.getBatchStocksByDueDate(number_days, section.toInt())
+    fun getBatchStocksByDueDate(@QueryValue number_days: Int, @QueryValue section: Int): List<BatchStock> {
+        return batchStockService.getBatchStocksByDueDate(number_days, section)
     }
 
     @Get("/due-date/list")

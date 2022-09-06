@@ -4,13 +4,14 @@ import javax.persistence.*
 
 
 @Entity
-class Product(
+data class Product(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int,
-    var name: String,
+    public var id: Int,
+    public var name: String,
 
     @Enumerated(EnumType.STRING)
-    var category: Category
-) {
+    public var category: Category,
 
-}
+    @OneToMany(mappedBy = "product")
+    public var sellerAd: List<SellerAd>
+)

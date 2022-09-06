@@ -7,19 +7,17 @@ import javax.persistence.*
 @Entity
 data class SellerAd(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int?,
-    var price: Double?,
+    public var id: Int?,
+    public var price: Double?,
 
     @OneToMany(mappedBy = "sellerAd", fetch = FetchType.EAGER)
-    var batchStockId: List<BatchStock>?,
+    public var batchStockId: List<BatchStock>?,
 
     @ManyToOne
     @JoinColumn(name = "sellerId")
     @JsonIgnoreProperties("sellerAdList")
-    var seller: Seller?,
+    public var seller: Seller?,
 
     @ManyToOne
-    var product: Product?,
-) {
-
-}
+    public var product: Product?,
+)
