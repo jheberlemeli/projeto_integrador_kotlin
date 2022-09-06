@@ -7,7 +7,7 @@ import javax.persistence.Id
 
 @Entity
 data class Seller(
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int,
     var name: String
 ) {

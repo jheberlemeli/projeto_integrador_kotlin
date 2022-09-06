@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 data class ShopOrderItem(
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int?,
     var date: LocalDate?,
     var price: Double?,

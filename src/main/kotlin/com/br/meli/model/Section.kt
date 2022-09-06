@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 data class Section(
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int?,
 
     @Column

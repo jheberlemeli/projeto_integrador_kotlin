@@ -6,7 +6,7 @@ import javax.persistence.*
 
 @Entity
 class BatchStock(
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int,
 
     @ManyToOne
@@ -21,5 +21,4 @@ class BatchStock(
     @JsonIgnoreProperties("batchStockList")
     @JoinColumn(name = "inbound_order_id")
     var inboundOrder: InboundOrder?,
-) {
-}
+)

@@ -4,7 +4,7 @@ import javax.persistence.*
 
 @Entity
 data class ShopOrder(
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int,
 
     @Enumerated(EnumType.STRING)

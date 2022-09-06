@@ -15,11 +15,11 @@ import java.util.stream.Collectors
 
 @Singleton
 class BatchStockService (
-    private val batchStockRepository: BatchStockRepo,
+    private var batchStockRepository: BatchStockRepo,
 
-    private val inboundOrderRepository: InboundOrderRepo,
+    private var inboundOrderRepository: InboundOrderRepo,
 
-    private val sectionRepository: SectionRepo,
+    private var sectionRepository: SectionRepo,
 ){
 
     private fun filterBatchStockCurrentQuantity(batchStockList: List<BatchStock>): List<BatchStock> {
@@ -85,8 +85,8 @@ class BatchStockService (
 
 
     fun getProductsInStock(productId: Int): List<BatchStock> {
-        val listDtoByCategory: List<BatchStock> = batchStockRepository.findAll().stream().map { BatchStock() }
-            .filter { it -> it.sellerAd.id === productId }.collect(Collectors.toList())
+        val listDtoByCategory: List<BatchStock> = batchStockRepository.findAll().stream().map { BatchStock(it.id, it.sellerAd, it.currentQuantity, it.dueDate, it.inboundOrder) }
+            .filter { it -> it.sellerAd.product!!.id === productId }.collect(Collectors.toList())
 
         if (listDtoByCategory.isEmpty()) {
             throw BadRequestException("Não existem produtos em estoque.")
@@ -97,7 +97,7 @@ class BatchStockService (
 
     fun getProductsInStockOrdered(productId: Int, orderBy: OrderBy?): List<BatchStock> {
         val listDtoByCategoryOrdered: List<BatchStock> =
-            batchStockRepository!!.findAll().stream().map { BatchStock() }
+            batchStockRepository!!.findAll().stream().map { BatchStock(it.id, it.sellerAd, it.currentQuantity, it.dueDate, it.inboundOrder) }
                 .filter { it -> it.sellerAd.id === productId }.collect(Collectors.toList())
         return when (orderBy) {
             OrderBy.L -> listDtoByCategoryOrdered.stream()
@@ -115,5 +115,9 @@ class BatchStockService (
 
     fun create(batchStock: BatchStock): BatchStock {
         return batchStockRepository.save(batchStock)
+    }
+
+    fun getAll(): List<BatchStock> {
+        return batchStockRepository.findAll()
     }
 }

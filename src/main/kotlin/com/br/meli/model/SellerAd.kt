@@ -6,7 +6,7 @@ import javax.persistence.*
 
 @Entity
 data class SellerAd(
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int?,
     var price: Double?,
 

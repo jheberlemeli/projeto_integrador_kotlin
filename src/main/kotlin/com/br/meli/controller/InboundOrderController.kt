@@ -9,7 +9,7 @@ class InboundOrderController(
     private var inboundOrderService: InboundOrderService
 ) {
 
-    @Post
+    @Post("/1")
     fun create(@Body inboundOrder: InboundOrder): InboundOrder{
         return inboundOrderService.create(inboundOrder)
     }

@@ -5,7 +5,7 @@ import javax.validation.constraints.Email
 
 @Entity
 data class User(
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int,
     var name: String,
     var email: String,

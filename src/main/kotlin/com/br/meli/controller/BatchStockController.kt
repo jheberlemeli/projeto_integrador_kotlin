@@ -2,15 +2,13 @@ package com.br.meli.controller
 
 import com.br.meli.model.BatchStock
 import com.br.meli.model.Category
+import com.br.meli.model.OrderBy
 import com.br.meli.service.BatchStockService
-import io.micronaut.http.annotation.Body
-import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.Post
+import io.micronaut.http.annotation.*
 
-@Controller("/batchStock")
+@Controller ("/batchStock")
 class BatchStockController(
-    var batchStockService: BatchStockService,
+    private var batchStockService: BatchStockService,
 ) {
 
     @Post
@@ -18,19 +16,28 @@ class BatchStockController(
         return batchStockService.create(batchStock)
     }
 
-    @Get
-    fun getProductsInStock(productId: Int): List<BatchStock> {
+    @Get("/all")
+    fun getAll(): List<BatchStock>{
+        return batchStockService.getAll()
+    }
+
+    @Get("/{productId}")
+    fun getProductsInStock(@PathVariable productId: Int): List<BatchStock> {
         return batchStockService.getProductsInStock(productId)
     }
 
     @Get
-    fun getBatchStocksByDueDate(number_days: Int, section: Long): List<BatchStock> {
+    fun getProductsInStockOrdered( @QueryValue productId: Int, @QueryValue orderBy: OrderBy): List<BatchStock> {
+        return batchStockService.getProductsInStockOrdered(productId, orderBy)
+    }
+
+    @Get("/due-date")
+    fun getBatchStocksByDueDate(@QueryValue number_days: Int, @QueryValue section: Long): List<BatchStock> {
         return batchStockService.getBatchStocksByDueDate(number_days, section.toInt())
     }
 
-    @Get
-    fun getBachStocksFilteredBy(number_days: Int, category: Category, orderType: String?,
-    ): List<BatchStock> {
+    @Get("/due-date/list")
+    fun getBachStocksFilteredBy(@QueryValue number_days: Int, @QueryValue category: Category, @QueryValue orderType: String): List<BatchStock> {
         return batchStockService.getBatchStocksFilteredBy(number_days, category, orderType!!)
     }
 }

@@ -6,7 +6,7 @@ import javax.persistence.*
 
 @Entity
 data class InboundOrder constructor(
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int?,
 
     @ManyToOne
