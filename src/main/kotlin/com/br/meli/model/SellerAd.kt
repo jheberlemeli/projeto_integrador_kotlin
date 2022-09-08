@@ -1,7 +1,6 @@
 package com.br.meli.model
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import io.micronaut.core.annotation.Introspected
 import javax.persistence.*
 
 @Entity
@@ -19,5 +18,11 @@ data class SellerAd(
     public var seller: Seller?,
 
     @ManyToOne
+    @JsonIgnoreProperties("sellerAd")
     public var product: Product?,
 )
+{
+    override fun toString(): String {
+        return "SellerAd(id=$id, price=$price, batchStockId=$batchStockId, seller=$seller, product=$product)"
+    }
+}

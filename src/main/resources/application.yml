@@ -6,9 +6,21 @@ datasources:
     db-type: mysql
     schema-generate: CREATE_DROP
     dialect: MYSQL
+    defer-datasource-initialization: true
 netty:
   default:
     allocator:
       max-order: 3
-jpa.default.properties.hibernate.hbm2ddl.auto: update
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        show_sql: true
 enable.lazy.load.no.trans: true
+flyway:
+  baseline-on-migrate: true
+  datasources:
+    default:
+      enabled: true

@@ -6,6 +6,4 @@ import javax.persistence.*
 data class Buyer(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var buyerId: Int
-) {
-
-}
+)

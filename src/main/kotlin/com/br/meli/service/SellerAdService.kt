@@ -20,9 +20,6 @@ class SellerAdService(
     }
 
     fun getByCategory(category: Category): List<SellerAd> {
-        val filter = sellerAdRepo.findAll().stream().filter { it.product!!.category.toString() == "FRESH" }
-        filter.count()
-
         val sellerAd: List<SellerAd> = sellerAdRepo.findAll().stream().filter { it.product!!.category == category }.collect(Collectors.toList())
 
         if (sellerAd.isEmpty()) throw BadRequestException("Não há produtos nessa categoria")
