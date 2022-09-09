@@ -5,7 +5,7 @@ import javax.persistence.*
 @Entity
 data class ShopOrder(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int,
+    var id: Int?,
 
     @Enumerated(EnumType.STRING)
     var status: Status?,

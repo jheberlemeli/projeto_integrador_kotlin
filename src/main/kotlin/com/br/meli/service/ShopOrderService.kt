@@ -5,10 +5,7 @@ import com.br.meli.model.*
 import com.br.meli.repository.BatchStockRepo
 import com.br.meli.repository.BuyerRepo
 import com.br.meli.repository.ShopOrderRepo
-import io.micronaut.core.type.Argument.listOf
 import jakarta.inject.Singleton
-import java.util.*
-import java.lang.IllegalArgumentException
 
 
 @Singleton
@@ -26,18 +23,18 @@ class ShopOrderService(
         return shopOrderRepo.findById(id).orElseThrow{ ShopOrderNotFoundException(id) }
     }
 
-//    fun sumShopOrderItems(shopOrderListItems: List<ShopOrderItem>): ShopOrder{
-//        var total = shopOrderListItems.stream().mapToDouble { so -> so.quantity!! * so.price!! }.sum()
-//        return ShopOrder(totalPrice = total)
-//
-//    }
+    fun sumShopOrderItems(shopOrderListItems: List<ShopOrderItem>): ShopOrder{
+        var total = shopOrderListItems.stream().mapToDouble { so -> so.quantity!! * so.price!! }.sum()
+        return ShopOrder(totalPrice = total, status = null, id = null, shopOrderItem = null, buyer = null)
+
+    }
 
     fun create(shopOrder: ShopOrder): ShopOrder {
         var buyer = verifyBuyerExists(shopOrder.buyer!!.buyerId)
         val shoporder = ShopOrder (id = shopOrder.id, status = shopOrder.status, shopOrderItem = shopOrder.shopOrderItem, buyer = buyer, totalPrice = null)
-        return shopOrderRepo.save(shoporder)
-//        val listShopOrderItem: MutableList<ShopOrderItem> = mutableListOf(shopOrderSaved)
-//        return sumShopOrderItems(listShopOrderItem)
+        val shopOrderSaved = shopOrderRepo.save(shoporder)
+        val listShopOrderItem: MutableList<ShopOrderItem> = shopOrderSaved.shopOrderItem as MutableList<ShopOrderItem>
+        return sumShopOrderItems(listShopOrderItem)
     }
 
     fun closedShopOrder(id: Int): ShopOrder {
