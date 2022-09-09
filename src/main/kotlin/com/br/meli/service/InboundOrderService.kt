@@ -1,5 +1,6 @@
 package com.br.meli.service
 
+import com.br.meli.exception.BadRequestException
 import com.br.meli.model.BatchStock
 import com.br.meli.model.InboundOrder
 import com.br.meli.model.Section
@@ -16,9 +17,9 @@ class InboundOrderService(
     fun isAllTypeProductsValid(batckStock: List<BatchStock>?, sectionCategory: Section?){
         batckStock!!.forEach { it ->
             val sellerAd =
-                sellerAdRepo.findById(it.sellerAd.id).orElseThrow { IllegalArgumentException("SellerAd invalido") }
+                sellerAdRepo.findById(it.sellerAd.id).orElseThrow { BadRequestException("SellerAd invalido") }
             if (!sellerAd.product!!.category.equals(sectionCategory!!.category)) {
-                throw IllegalArgumentException("Produto nao existe")
+                throw BadRequestException("Produto nao existe")
             }
         }
 
@@ -30,7 +31,7 @@ class InboundOrderService(
     }
 
     fun finById(id: Int): InboundOrder {
-        return inboundOrderRepo.findById(id).orElseThrow { IllegalArgumentException("InboundOrder não cadastrada") }
+        return inboundOrderRepo.findById(id).orElseThrow { BadRequestException("InboundOrder não cadastrada") }
     }
 
 }

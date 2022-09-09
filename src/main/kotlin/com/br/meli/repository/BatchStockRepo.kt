@@ -9,8 +9,8 @@ import io.micronaut.data.repository.CrudRepository
 @Repository
 interface BatchStockRepo: JpaRepository<BatchStock, Int> {
 
-    @Query(nativeQuery = true, value = "SELECT sum(bs.current_quantity) from batchStock s\n" +
-            "join seller_ad sa where s.seller_ad_id = :product  ")
+    @Query(nativeQuery = true, value = "select sum(bs.current_quantity) from batch_stock bs\n" +
+            "join seller_ad sa where bs.seller_ad_id = sa.id;  ")
     fun getQuantityProduct(product: Int?): Int
 
 }

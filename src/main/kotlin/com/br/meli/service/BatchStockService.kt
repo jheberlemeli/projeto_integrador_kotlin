@@ -1,6 +1,8 @@
 package com.br.meli.service
 
 import com.br.meli.exception.BadRequestException
+import com.br.meli.exception.CategoryNotFoundException
+import com.br.meli.exception.SectionNotFoundException
 import com.br.meli.model.*
 import com.br.meli.repository.BatchStockRepo
 import com.br.meli.repository.InboundOrderRepo
@@ -51,7 +53,7 @@ class BatchStockService (
 
     fun getBatchStocksByDueDate(numberOfDays: Int, sectionId: Int): List<BatchStock> {
         val sectionSelected: Section =
-            sectionRepository!!.findById(sectionId).orElseThrow { BadRequestException("Section ID invalid!") }
+            sectionRepository!!.findById(sectionId).orElseThrow { SectionNotFoundException(sectionId) }
         val sectionCategory: Category = sectionSelected.category!!
 
         val batchStockList: MutableList<BatchStock> = ArrayList<BatchStock>()
@@ -109,7 +111,7 @@ class BatchStockService (
             OrderBy.V -> listDtoByCategoryOrdered.stream()
                 .sorted(Comparator.comparing(BatchStock::dueDate)).collect(
                 Collectors.toList())
-            else -> throw IllegalArgumentException("Categoria inválida.")
+            else -> throw CategoryNotFoundException("Categoria inválida.")
         }
     }
 

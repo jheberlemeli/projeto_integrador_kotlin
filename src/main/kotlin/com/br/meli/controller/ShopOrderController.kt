@@ -13,7 +13,7 @@ open class ShopOrderController(
 ) {
 
     @Get("/{id}")
-    open fun get(@PathVariable id: Int): Optional<ShopOrder> {
+    open fun get(@PathVariable id: Int): ShopOrder {
         return shopOrderService.findById(id)
     }
 

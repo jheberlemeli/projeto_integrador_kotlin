@@ -1,6 +1,6 @@
 package com.br.meli.service
 
-import com.br.meli.exception.BadRequestException
+import com.br.meli.exception.*
 import com.br.meli.model.*
 import com.br.meli.repository.BatchStockRepo
 import com.br.meli.repository.BuyerRepo
@@ -19,11 +19,11 @@ class ShopOrderService(
 ) {
 
     fun verifyBuyerExists(id: Int): Buyer{
-        return buyerRepo.findById(id).orElseThrow { BadRequestException("Buyer não existe") }
+        return buyerRepo.findById(id).orElseThrow { BuyerNotFoundException(id) }
     }
 
-    fun findById(id: Int): Optional<ShopOrder> {
-        return shopOrderRepo.findById(id)
+    fun findById(id: Int): ShopOrder {
+        return shopOrderRepo.findById(id).orElseThrow{ ShopOrderNotFoundException(id) }
     }
 
 //    fun sumShopOrderItems(shopOrderListItems: List<ShopOrderItem>): ShopOrder{
@@ -41,14 +41,14 @@ class ShopOrderService(
     }
 
     fun closedShopOrder(id: Int): ShopOrder {
-        var shopOrder = findById(id).get()
+        var shopOrder = findById(id)
 
         if (shopOrder.status!!.equals(Status.CLOSED))
-            throw BadRequestException("ShopOrder ja esta fechado")
+            throw ShopOrderAlreadyClosedException("ShopOrder ja esta fechado")
 
         shopOrder.shopOrderItem!!.forEach { it ->
             if (it.quantity!! > batchStockRepo.getQuantityProduct(it.quantity))
-                throw BadRequestException("Quantidade de produto nao disponivel no estoque")
+                throw ProductNotFoundException(shopOrder.id)
         }
 
         shopOrder.status = Status.CLOSED
